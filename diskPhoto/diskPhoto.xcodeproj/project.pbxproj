@@ -14,6 +14,8 @@
 		CEA9D2D824B1E49300CC7023 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEA9D2D724B1E49300CC7023 /* Assets.xcassets */; };
 		CEA9D2DB24B1E49300CC7023 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEA9D2D924B1E49300CC7023 /* LaunchScreen.storyboard */; };
 		CEA9D2E324B1E4CA00CC7023 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA9D2E224B1E4CA00CC7023 /* AuthViewController.swift */; };
+		CEA9D2E524B2174500CC7023 /* DiskResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA9D2E424B2174500CC7023 /* DiskResponse.swift */; };
+		CEA9D2E724B2256300CC7023 /* FileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA9D2E624B2256300CC7023 /* FileTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		CEA9D2DA24B1E49300CC7023 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CEA9D2DC24B1E49300CC7023 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEA9D2E224B1E4CA00CC7023 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		CEA9D2E424B2174500CC7023 /* DiskResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskResponse.swift; sourceTree = "<group>"; };
+		CEA9D2E624B2256300CC7023 /* FileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,10 +66,12 @@
 				CEA9D2D024B1E49000CC7023 /* SceneDelegate.swift */,
 				CEA9D2D224B1E49000CC7023 /* ViewController.swift */,
 				CEA9D2E224B1E4CA00CC7023 /* AuthViewController.swift */,
+				CEA9D2E424B2174500CC7023 /* DiskResponse.swift */,
 				CEA9D2D424B1E49000CC7023 /* Main.storyboard */,
 				CEA9D2D724B1E49300CC7023 /* Assets.xcassets */,
 				CEA9D2D924B1E49300CC7023 /* LaunchScreen.storyboard */,
 				CEA9D2DC24B1E49300CC7023 /* Info.plist */,
+				CEA9D2E624B2256300CC7023 /* FileTableViewCell.swift */,
 			);
 			path = diskPhoto;
 			sourceTree = "<group>";
@@ -142,8 +148,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEA9D2E324B1E4CA00CC7023 /* AuthViewController.swift in Sources */,
+				CEA9D2E724B2256300CC7023 /* FileTableViewCell.swift in Sources */,
 				CEA9D2D324B1E49000CC7023 /* ViewController.swift in Sources */,
 				CEA9D2CF24B1E49000CC7023 /* AppDelegate.swift in Sources */,
+				CEA9D2E524B2174500CC7023 /* DiskResponse.swift in Sources */,
 				CEA9D2D124B1E49000CC7023 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
