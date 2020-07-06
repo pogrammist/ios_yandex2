@@ -10,11 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
     private let tableView = UITableView()
+    private let textField = UITextField()
+    private let uploadButton = UIButton()
+    
     private var isFirst = true
     
     private var token: String = ""
     private var filesData: DiskResponse?
     private let fileCellIdentifier = "FileTableViewCell"
+    private let textFieldHeight: CGFloat = 44
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,20 +39,47 @@ class ViewController: UIViewController {
         
         title = "Мои фото"
         
-        tableView.dataSource = self
         tableView.register(FileTableViewCell.self, forCellReuseIdentifier: fileCellIdentifier)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100
+        tableView.dataSource = self
+
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textFieldHeight))
+        textField.leftViewMode = .always
+        textField.backgroundColor = UIColor.gray.withAlphaComponent(0.1)
+        textField.placeholder = "Введите URL за загрузки файла"
+
+        uploadButton.setTitle("↓", for: .normal)
+        uploadButton.setTitleColor(.black, for: .normal)
+        uploadButton.addTarget(self, action: #selector(uploadFile), for: .touchUpInside)
+
+        [tableView, textField, uploadButton].forEach { subview in
+            subview.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(subview)
+        }
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(updateData), for: .valueChanged)
+        tableView.refreshControl = refreshControl
         
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(tableView)
         NSLayoutConstraint.activate([
+            textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            textField.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            textField.heightAnchor.constraint(equalToConstant: textFieldHeight),
+
+            uploadButton.centerYAnchor.constraint(equalTo: textField.centerYAnchor),
+            uploadButton.heightAnchor.constraint(equalTo: textField.heightAnchor),
+            uploadButton.widthAnchor.constraint(equalTo: uploadButton.heightAnchor),
+            uploadButton.leadingAnchor.constraint(equalTo: textField.trailingAnchor),
+            uploadButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: textField.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
-    private func updateData() {
+    @objc private func updateData() {
         guard !token.isEmpty else {
             let requestTokenViewController = AuthViewController()
             requestTokenViewController.delegate = self
@@ -72,6 +103,31 @@ class ViewController: UIViewController {
             }
         }
         task.resume()
+    }
+    
+    @objc private func uploadFile() {
+        guard let fileUrl = textField.text, !fileUrl.isEmpty else { return }
+        var components = URLComponents(string: "https://cloud-api.yandex.net/v1/disk/resources/upload")
+        components?.queryItems = [
+            URLQueryItem(name: "url", value: fileUrl),
+            URLQueryItem(name: "path", value: "file"),
+        ]
+        guard let url = components?.url else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("OAuth \(token)", forHTTPHeaderField: "Authorization")
+
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let response = response as? HTTPURLResponse {
+                switch response.statusCode {
+                case 200..<300:
+                    print("Success")
+                    self.updateData()
+                default:
+                    print("Status: \(response.statusCode)")
+                }
+            }
+        }.resume()
     }
 }
 
